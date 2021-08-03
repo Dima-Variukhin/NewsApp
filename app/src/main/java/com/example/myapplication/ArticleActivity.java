@@ -3,6 +3,7 @@ package com.example.myapplication;
 import androidx.appcompat.app.AppCompatActivity;
 
 import android.app.LoaderManager;
+import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.Intent;
 import android.content.Loader;
@@ -19,11 +20,11 @@ import android.widget.TextView;
 import java.util.ArrayList;
 import java.util.List;
 
-public class ArticleActivity extends AppCompatActivity implements LoaderManager.LoaderCallbacks<List<Article>> {
+public class ArticleActivity extends AppCompatActivity implements LoaderCallbacks<List<Article>> {
     private static final int ARTICLE_LOADER_ID = 1;
     public ArticleAdapter aAdapter;
     private TextView mEmptyStateTextView;
-    private static final String REQUEST_URL = "https://content.guardianapis.com/search";
+    private static final String REQUEST_URL = "https://content.guardianapis.com/search?q=Careers&show-tags=contributor&api-key=test";
 
     @Override
     protected void onCreate(Bundle savedInstanceState) {

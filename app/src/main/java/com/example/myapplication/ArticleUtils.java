@@ -101,17 +101,28 @@ public class ArticleUtils {
         ArrayList<Article> articles = new ArrayList<>();
         try {
             JSONObject baseJsonObject = new JSONObject(jsonResponse);
-            JSONArray jsonArray = baseJsonObject.getJSONArray("response");
+            JSONObject jsonObject = baseJsonObject.getJSONObject("response");
+            JSONArray jsonArray = jsonObject.getJSONArray("results");
             for (int i = 0; i < jsonArray.length(); i++) {
                 JSONObject currentArticle = jsonArray.getJSONObject(i);
-                JSONObject results = currentArticle.getJSONObject("results");
-                String text = results.getString("webTitle");
-                String type = results.getString("type");
-                long date = results.getLong("webPublicationDate");
-                String sectionName = results.getString("sectionName");
-                String url = results.getString("webUrl");
-
-                Article article = new Article(type, text, date, sectionName, url);
+                String text = currentArticle.getString("webTitle");
+                String date = currentArticle.getString("webPublicationDate");
+                String sectionName = currentArticle.getString("sectionName");
+                String url = currentArticle.getString("webUrl");
+                //check author
+                String author = "Author is absent";
+                currentArticle.getJSONArray("tags");
+                JSONArray authorArray = currentArticle.getJSONArray("tags");
+                if (authorArray != null) {
+                    for (int k = 0; k < authorArray.length(); k++) {
+                        JSONObject object = authorArray.getJSONObject(k);
+                        author = object.getString("webTitle");
+                    }
+                    if (author == null) {
+                        author = "Author is absent";
+                    }
+                }
+                Article article = new Article(author, text, date, sectionName, url);
                 articles.add(article);
             }
         } catch (JSONException e) {

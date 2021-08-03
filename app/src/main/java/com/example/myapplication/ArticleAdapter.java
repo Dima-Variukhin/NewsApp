@@ -7,8 +7,6 @@ import android.view.ViewGroup;
 import android.widget.ArrayAdapter;
 import android.widget.TextView;
 
-import java.text.SimpleDateFormat;
-import java.util.Date;
 import java.util.List;
 
 
@@ -30,31 +28,18 @@ public class ArticleAdapter extends ArrayAdapter<Article> {
         sectionName.setText(currentArticle.getSectionName());
 
         TextView type = listView.findViewById(R.id.type);
-        type.setText(currentArticle.getType());
+        type.setText(currentArticle.getAuthor());
 
         TextView text = listView.findViewById(R.id.text);
         text.setText(currentArticle.getText());
 
-        Date date = new Date(currentArticle.getDate());
-
+        String date = currentArticle.getDate();
         TextView day = listView.findViewById(R.id.date);
-        String formattedDay = formatDate(date);
-        day.setText(formattedDay);
+        day.setText(date);
 
-        TextView time = listView.findViewById(R.id.time);
-        String formattedTime = formatTime(date);
-        time.setText(formattedTime);
 
         return listView;
     }
 
-    private String formatDate(Date date) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("LLL dd, yyyy");
-        return simpleDateFormat.format(date);
-    }
 
-    private String formatTime(Date date) {
-        SimpleDateFormat simpleDateFormat = new SimpleDateFormat("h:mm a");
-        return simpleDateFormat.format(date);
-    }
 }

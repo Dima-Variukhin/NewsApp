@@ -1,14 +1,14 @@
 package com.example.myapplication;
 
 public class Article {
-    private String type;
+    private String author;
     private String text;
-    private long date;
+    private String date;
     private String sectionName;
     private String url;
 
-    public Article(String type, String text, long date, String sectionName, String url) {
-        this.type = type;
+    public Article(String author, String text, String date, String sectionName, String url) {
+        this.author = author;
         this.text = text;
         this.date = date;
         this.sectionName = sectionName;
@@ -19,15 +19,15 @@ public class Article {
         return url;
     }
 
-    public String getType() {
-        return type;
+    public String getAuthor() {
+        return author;
     }
 
     public String getText() {
         return text;
     }
 
-    public long getDate() {
+    public String getDate() {
         return date;
     }
 
