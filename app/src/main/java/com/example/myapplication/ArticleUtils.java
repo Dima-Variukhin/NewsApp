@@ -14,12 +14,13 @@ import java.io.InputStreamReader;
 import java.net.HttpURLConnection;
 import java.net.MalformedURLException;
 import java.net.URL;
-import java.nio.charset.Charset;
+import java.nio.charset.StandardCharsets;
 import java.util.ArrayList;
 import java.util.List;
 
 public class ArticleUtils {
     public static final String LOG_TAG = ArticleUtils.class.getSimpleName();
+    private final static String AUTHOR_IS_ABSENT = "Author is absent";
 
     public ArticleUtils() {
     }
@@ -82,7 +83,7 @@ public class ArticleUtils {
     private static String readFromStream(InputStream inputStream) throws IOException {
         StringBuilder outPut = new StringBuilder();
         if (inputStream != null) {
-            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, Charset.forName("UTF-8"));
+            InputStreamReader inputStreamReader = new InputStreamReader(inputStream, StandardCharsets.UTF_8);
             BufferedReader reader = new BufferedReader(inputStreamReader);
             String line = reader.readLine();
             while (line != null) {
@@ -110,16 +111,16 @@ public class ArticleUtils {
                 String sectionName = currentArticle.getString("sectionName");
                 String url = currentArticle.getString("webUrl");
                 //check author
-                String author = "Author is absent";
+                String author = AUTHOR_IS_ABSENT;
                 currentArticle.getJSONArray("tags");
                 JSONArray authorArray = currentArticle.getJSONArray("tags");
                 if (authorArray != null) {
                     for (int k = 0; k < authorArray.length(); k++) {
                         JSONObject object = authorArray.getJSONObject(k);
-                        author = object.getString("webTitle");
+                        author = object.optString("webTitle");
                     }
                     if (author == null) {
-                        author = "Author is absent";
+                        author = AUTHOR_IS_ABSENT;
                     }
                 }
                 Article article = new Article(author, text, date, sectionName, url);

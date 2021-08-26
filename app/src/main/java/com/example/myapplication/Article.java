@@ -1,11 +1,11 @@
 package com.example.myapplication;
 
 public class Article {
-    private String author;
-    private String text;
-    private String date;
-    private String sectionName;
-    private String url;
+    private final String author;
+    private final String text;
+    private final String date;
+    private final String sectionName;
+    private final String url;
 
     public Article(String author, String text, String date, String sectionName, String url) {
         this.author = author;

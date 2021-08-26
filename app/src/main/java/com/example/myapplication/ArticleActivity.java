@@ -2,7 +2,6 @@ package com.example.myapplication;
 
 import androidx.appcompat.app.AppCompatActivity;
 
-import android.app.LoaderManager;
 import android.app.LoaderManager.LoaderCallbacks;
 import android.content.Context;
 import android.content.Intent;
@@ -17,6 +16,8 @@ import android.view.View;
 import android.widget.ListView;
 import android.widget.TextView;
 
+import java.net.MalformedURLException;
+import java.net.URL;
 import java.util.ArrayList;
 import java.util.List;
 
@@ -58,13 +59,18 @@ public class ArticleActivity extends AppCompatActivity implements LoaderCallback
         }
     }
 
-
     @Override
     public Loader<List<Article>> onCreateLoader(int i, Bundle bundle) {
-        SharedPreferences sharedPref = PreferenceManager.getDefaultSharedPreferences(this);
-        Uri baseUri = Uri.parse(REQUEST_URL);
-        Uri.Builder uriBuilder = baseUri.buildUpon();
-        return new ArticleReportLoader(this, uriBuilder.toString());
+        Uri.Builder builder = new Uri.Builder();
+        builder.scheme("https");
+        builder.authority("content.guardianapis.com");
+        builder.appendPath("search");
+//        builder.appendQueryParameter("q", "Careers");
+        builder.appendQueryParameter("show-tags", "contributor");
+        builder.appendQueryParameter("api-key", "test");
+        String URL = builder.build().toString();
+        Uri baseUri = Uri.parse(URL).buildUpon().build();
+        return new ArticleReportLoader(this, baseUri.toString());
     }
 
     @Override
